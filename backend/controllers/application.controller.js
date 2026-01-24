@@ -79,7 +79,8 @@ export const getApplicationsForJob = async (req, res) => {
         {
             return res.status(404).json({message: 'Job not found', success: false});
         }
-        return res.status(200).json({applications: job.applications, success: true});
+        const applications = job.applications;
+        return res.status(200).json({applications, success: true});
         
     } catch (error) {
         console.error('Error fetching applications for job:', error);
@@ -90,17 +91,20 @@ export const getApplicationsForJob = async (req, res) => {
 export const updateApplicationStatus = async (req, res) => {
     try {
         const applicationId = req.params.id;
-        const {status} = req.body;
+        let {status} = req.body;
+        
         if(!status)
         {
             return res.status(400).json({message: 'Status is required', success: false});
         }
+        status = status.toLowerCase()
+        status += 'ed'
         let application = await Application.findOne({_id: applicationId});
         if(!application)
         {
             return res.status(404).json({message: 'Application not found', success: false});
         }
-
+        
         application.status = status.toLowerCase();
         await application.save();
 

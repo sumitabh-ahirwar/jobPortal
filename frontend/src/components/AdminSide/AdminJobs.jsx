@@ -22,10 +22,10 @@ function AdminJobs() {
         <div className='flex items-center justify-between my-5'>
             <Input
                 className={'w-fit'}
-                placeholder = "Filter ny name"
+                placeholder = "Filter by name, title"
                 onChange = {(e) => setInput(e.target.value)}
             />
-            <Button onClick={() => navigate("/admin/jobs/create")}>New Jobs</Button>
+            <Button onClick={() => navigate("/admin/job/create")}>New Jobs</Button>
         </div>
         <JobsTable/>
       </div>

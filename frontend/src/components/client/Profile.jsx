@@ -8,9 +8,12 @@ import { Label } from '../ui/label'
 import UpdateProfileDialog from './UpdateProfileDialog'
 import { useSelector } from 'react-redux'
 import AppliedJobsTable from './AppliedJobsTable'
+import useGetApplications from '@/hooks/useGetApplications'
 function Profile() {
+    useGetApplications();
     const haveResume= true;
     const {user} = useSelector(store => store.auth)
+    
     const [open, setOpen] = useState(false)
     
 

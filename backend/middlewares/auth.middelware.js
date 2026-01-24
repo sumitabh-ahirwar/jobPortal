@@ -22,7 +22,7 @@ const isAuthenticated = async(req, res, next) => {
         }
 
         req.id = decoded._id;
-        const user = await User.findById(decoded._id).select("-password");
+        const user = await User.findById(decoded._id).select("-password --refreshToken");
         if(user) {
             req.role = user.role
             req.user = user;

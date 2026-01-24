@@ -29,7 +29,7 @@ function JobDescription() {
                 toast.success(res.data.message)
             }
         } catch (error) {
-            console.log("Applu job error", error.message)
+            console.log("Apply job error", error.message)
             toast.error(error.message)
         }
     }
@@ -61,7 +61,7 @@ function JobDescription() {
                     {singleJob?.jobType}
                     </Badge>
                     <Badge className={"text-[#7209B7] font-bold"} variant="ghost">
-                    {singleJob?.salary}
+                    {singleJob?.salary/100000}LPA
                     </Badge>
                 </div>
             </div>
@@ -83,7 +83,7 @@ function JobDescription() {
             <h1 className="font-bold my-1">Experience: <span className="pl-4 font-normal text-gray-800">{singleJob?.experience}</span></h1>
             <h1 className="font-bold my-1">Salary: <span className="pl-4 font-normal text-gray-800">{singleJob?.salary/100000} LPA</span></h1>
             <h1 className="font-bold my-1">Total Applicants: <span className="pl-4 font-normal text-gray-800">{singleJob?.applications?.length}</span></h1>
-            <h1 className="font-bold my-1">Posted Date: <span className="pl-4 font-normal text-gray-800">{singleJob?.createdAt.split('T')[0]}</span></h1>
+            <h1 className="font-bold my-1">Posted Date: <span className="pl-4 font-normal text-gray-800">{singleJob?.createdAt?.split('T')[0]}</span></h1>
         </div>
     </div>
   );

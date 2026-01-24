@@ -4,7 +4,6 @@ import cloudinary from "../utils/cloudinay.js";
 
 export const register = async (req, res) => {
     try {
-        // console.log("Request body ", req.body);
         const {username, email, phoneNumber, password, role} = req.body;
         if(!username || !email || !phoneNumber || !password || !role)
         {
@@ -61,7 +60,6 @@ const generateAccessAndRefreshTokens = async(userId) =>
 }
 export const login = async (req, res) => {
     try {
-        // console.log("Request body ", req.body);
         const {email, password, role} = req.body;
         if( !email || !password || !role)
         {
@@ -72,7 +70,6 @@ export const login = async (req, res) => {
         }
 
         let user = await User.findOne({email});
-        // console.log(user)
         if(!user)
         {
             return res.status(400).json({
@@ -89,9 +86,6 @@ export const login = async (req, res) => {
                 success: false
             })
         }
-
-
-        //check role is correct or not 
 
         if(role !== user.role)
         {
@@ -113,7 +107,6 @@ export const login = async (req, res) => {
             httpOnly: true,
             secure: true
         }
-        console.log("User logged in successfully")
         return res.status(200)
         .cookie("refreshToken", refreshToken, options)
         .cookie("accessToken", accessToken, options).
