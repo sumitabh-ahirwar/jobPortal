@@ -1,12 +1,12 @@
 export const USER_API_ENDPOINT = "http://localhost:3000/api/v1/users";
 export const categories = [
-    "Frontend Developmer",
-    "Backend Developmer",
-    "Fullstack Developmer",
+    "Frontend Developer",
+    "Backend Developer",
+    "Fullstack Developer",
     "Data Scientist",
     "Machine Learning engineer",
     "DevOps Engineer",
-    "Mobile App Developmer",
+    "Mobile App Developer",
     "UI/UX Designer",
     "Cybersecurity engineer",
     "Cloud Computing",

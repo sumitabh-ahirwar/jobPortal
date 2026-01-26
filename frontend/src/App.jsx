@@ -17,7 +17,6 @@ import axios from "axios";
 import Profile from "./components/client/Profile.jsx";
 import { USER_API_ENDPOINT } from "./utils/constants.js";
 import JobDescription from "./components/client/JobDescription.jsx";
-import useGetAllJobs from "./hooks/useGetAllJobs.jsx";
 import Companies from "./components/AdminSide/Companies.jsx";
 import AdminJobs from "./components/AdminSide/AdminJobs.jsx";
 import CompanyCreate from "./components/AdminSide/CompanyCreate.jsx";
@@ -25,6 +24,7 @@ import CompanySetup from "./components/AdminSide/CompanySetup.jsx";
 import EditCompany from "./components/AdminSide/EditCompany.jsx";
 import PostJob from "./components/AdminSide/PostJob.jsx";
 import Applicants from "./components/AdminSide/Applicants.jsx";
+import UpdateJob from "./components/AdminSide/UpdateJob.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
@@ -38,6 +38,7 @@ const router = createBrowserRouter(
       <Route path="admin/companies" element={<Companies/>}/>
       <Route path="admin/jobs" element={<AdminJobs/>}/>
       <Route path="admin/job/create" element={<PostJob/>}/>
+      <Route path="admin/job/update/:id" element={<UpdateJob/>}/>
       <Route path="admin/companies/create" element={<CompanyCreate/>}/>
       <Route path="admin/companies/:id" element={<CompanySetup/>}/>
       <Route path="admin/jobs/:id/applicants" element={<Applicants/>}/>

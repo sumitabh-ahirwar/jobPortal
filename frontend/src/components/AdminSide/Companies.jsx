@@ -16,15 +16,15 @@ function Companies() {
   },[input])
   const navigate = useNavigate();
   return (
-    <div>
+    <div className='min-h-screen'>
       <div className='max-w-6xl mx-auto my-10'>
         <div className='flex items-center justify-between my-5'>
             <Input
-                className={'w-fit'}
+                className={'w-full max-w-xs'}
                 placeholder = "Filter by name"
                 onChange = {(e) => setInput(e.target.value)}
             />
-            <Button onClick={() => navigate("/admin/companies/create")}>New Company</Button>
+            <Button className="text-right" onClick={() => navigate("/admin/companies/create")}>New Company</Button>
         </div>
         <CompanyTable/>
       </div>

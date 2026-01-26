@@ -3,24 +3,23 @@ import Job from './Job';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchQuery } from '@/redux/jobSlice';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
+import useGetSearchedQueryJobs from '@/hooks/useGetSearchedQueryJobs';
+import { useSearchParams } from 'react-router-dom';
 
 function Browse() {
-  useGetAllJobs()
-  const {allJobs} = useSelector(state => state.job)
-  const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("query") || "";
 
-  useEffect(() => {
-    return () => {
-      dispatch(setSearchQuery(""));
-    }
-  }, [])
+  useGetSearchedQueryJobs(query);
+  const { searchedQueryJobs } = useSelector(state => state.job);
+
   return (
     <div>
       <div className='max-w-7xl mx-auto my-10'>
-        <h1 className='font-vold text-xl'>Search Results ({allJobs.length})</h1>
+        <h1 className='font-vold text-xl'>Search Results ({searchedQueryJobs.length})</h1>
         <div className='grid grid-cols-3 gap-4'>
           {
-          allJobs.map((job) => (
+          searchedQueryJobs.map((job) => (
             <Job key = {job?._id} job = {job}/>
           )
         )

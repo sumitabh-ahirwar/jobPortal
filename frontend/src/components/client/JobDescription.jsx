@@ -49,7 +49,7 @@ function JobDescription() {
         fetchSingleJob()
     }, [dispatch, jobId])
   return (
-    <div className="max-w-7xl mx-auto my-10">
+    <div className="min-h-screen max-w-7xl mx-auto my-10">
         <div className="flex items-center justify-between">
             <div>
                 <h1 className="font-bold text-xl">{singleJob?.title}</h1>

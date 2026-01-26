@@ -32,14 +32,14 @@ function Navbar() {
     }
   }
   return (
-    <div className="bg-white ">
+    <div className="h-21 bg-white mx-auto  border shadow-xs rounded-b-xs">
       <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
-        <div>
-          <h1 className="text-2xl font-bold">
-            Job<span className="text-[#F83002]">Portal</span>
+        <div className="mt-4">
+          <h1 className=" text-3xl font-bold cursor-pointer" onClick={() => navigate("/home")}>
+            Job<span className="text-[#6A38C2]">Portal</span>
           </h1>
         </div>
-        <div className="flex items-center gap-12">
+        <div className="mt-5 flex items-center gap-12">
           <ul className="flex font-medium items-center gap-5">
             {
               user && user.role === "recruiter" ? (
@@ -78,7 +78,7 @@ function Navbar() {
               <PopoverTrigger asChild>
                 <Avatar className="cursor-pointer">
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
+                    src={user?.profile?.profilePhoto}
                     alt="@shadcn"
                   />
                 </Avatar>
@@ -88,14 +88,14 @@ function Navbar() {
                 <div className="flex gap-4 space-y-2">
                   <Avatar className="cursor-pointer">
                     <AvatarImage
-                      src="https://github.com/shadcn.png"
+                      src={user?.profile?.profilePhoto}
                       alt="@shadcn"
                     />
                   </Avatar>
                   <div>
                     <h4 className="font-medium pt-1">Sumit</h4>
                     <p className="text-sm text-muted-foreground">
-                      Lorem ipsum dolor sit amet.
+                      {user?.profile?.bio}
                     </p>
                   </div>
                 </div>

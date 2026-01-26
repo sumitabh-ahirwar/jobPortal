@@ -4,7 +4,9 @@ import CategoryCarousel from '../client/CategoryCarousel'
 import LatestJobs from "../client/LatestJobs"
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import useGetAllJobs from '@/hooks/useGetAllJobs'
 function Home() {
+  useGetAllJobs();
   const {user} = useSelector(state => state.auth)
   const navigate = useNavigate();
   useEffect(() => {

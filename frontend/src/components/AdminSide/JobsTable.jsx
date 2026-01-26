@@ -78,17 +78,17 @@ function JobsTable() {
                           className="w-24 p-2"
                         >
                           <div
-                            onClick={() =>  navigate(`/admin/companies/update/${job?._id}`)}
-                            className="flex items-center gap-2 cursor-pointer rounded-sm hover:bg-gray-100"
+                            onClick={() =>  navigate(`/admin/job/update/${job?._id}`)}
+                            className="flex items-center gap-2 cursor-pointer rounded-sm"
                           >
                             <Edit2 className="w-4" />
                             <span>Edit</span>
                           </div>
                           <div
                             onClick={() =>  navigate(`/admin/jobs/${job._id}/applicants`)}
-                            className="flex items-center my-2 gap-2 cursor-pointer rounded-sm hover:bg-gray-100"
+                            className="flex items-center my-2 gap-2 cursor-pointer rounded-sm"
                           >
-                            <Eye className="w-4" />
+                            <Eye className="" />
                             <span>Applicants</span>
                           </div>
                         </PopoverContent>

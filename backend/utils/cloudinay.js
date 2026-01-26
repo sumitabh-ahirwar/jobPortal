@@ -36,18 +36,12 @@ const uploadOnCloudinary = async (localFilePath) => {
 
 const uploadPdfToCloudinary = async (file) => {
   try {
-    console.log(file);
     
     if (!file) return null;
-
-    console.log("Uploading PDF to Cloudinary:", file);
-
     const response = await cloudinary.uploader.upload(file, {
       folder: "resumes",
-      resource_type: "raw"   // ✅ VERY IMPORTANT FOR PDF
+      resource_type: "raw"   
     });
-
-    // delete temp file after upload
     if (fs.existsSync(file.path)) {
       fs.unlinkSync(file.path);
     }

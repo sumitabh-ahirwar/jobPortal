@@ -88,3 +88,40 @@ export const getAllJobsCreatedByAdmin = async (req, res) => {
         res.status(500).json({message: 'Internal server error'});
     }
 }
+
+export const updateJob= async (req, res) => {
+  try {
+
+    const {title, description, location, jobType, requirements, salary, positions, experience} = req.body;
+    const updateData = {title, description, location, jobType, requirements, salary, positions, experience}
+
+    const user = req.role;
+    
+    if(!req.params.id)
+    {
+        return res.status(404).json({ message: "Job id not Found", success: false });
+    }
+    if(user ==='student')
+    {
+        return res.status(403).json({ message: "Unauthorized user", success: false });
+    }
+    const job = await Job.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    if (!job) {
+      return res.status(404).json({ message: "Job not found", success: false });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Job updated",
+      job
+    });
+
+  } catch (error) {
+    console.error("updateJob error:", error);
+    res.status(500).json({ success: false, message: "updateJob error" });
+  }
+};
