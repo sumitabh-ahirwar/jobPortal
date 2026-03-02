@@ -5,7 +5,12 @@ import { upload } from "../utils/multer.js";
 import { getMe } from "../controllers/user.controller.js";
 const router = express.Router();
 
-router.route("/register").post( register);
+router.route("/register").post(upload.fields(
+    [{
+        name: "profilePhoto",
+        maxCount: 1
+    },]
+), register);
 router.route("/login").post(login);
 router.route("/logout").post(logout);
 router.route("/profile/updateProfile").post(isAuthenticated, upload.fields([

@@ -2,12 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 const applicationSlice = createSlice({
     name: 'application',
     initialState: {
-        applicants:[],
-        allApplications:[]
+        applicantsForJob:{},
+        allApplications:[],
     },
     reducers:{
         setAllApplicants: (state, action) => {
-            state.applicants = action.payload
+            const {jobId, data} = action.payload;
+            state.applicantsForJob[jobId] = data
         },
         setAllApplications: (state, action) => {
             state.allApplications = action.payload

@@ -1,6 +1,7 @@
 import {Application} from "../models/applications.model.js";
 import {Job}  from "../models/job.model.js";
-
+import client from "../utils/geminiai.js";
+import { User } from "../models/user.model.js";
 
 export const applyToJob = async (req, res) => {
     try {
@@ -114,4 +115,73 @@ export const updateApplicationStatus = async (req, res) => {
         res.status(500).json({message: 'Internal server error'});
     }
 }
+
+
+import axios from 'axios';
+import {PDFParse} from 'pdf-parse';
+
+export const rankApplicants = async (req, res) => {
+    try {
+        const  jobId  = req.params.id;
+        
+        const job = await Job.findById(jobId).populate({
+            path: 'applications',
+            populate: { path: 'applicant' }
+        });
+        if (!job || !job.applications) {
+            return res.status(404).json({ success: false, message: "No applications found." });
+        }
+        const jobDescription = job?.description;
+
+        const rankingResults = await Promise.all(job?.applications?.map(async (app) => {
+            if (app.score) { return app; }
+            const applicant = await User.findById(app?.applicant);
+            
+            const response = await axios.get(applicant?.profile?.resume, { responseType: 'arraybuffer' });
+            const uint8Array = new Uint8Array(response.data);
+            const parser = new PDFParse(uint8Array)
+            const data = await parser.getText();
+            const resumeText = data.text;
+
+            const prompt = `Job Description: ${jobDescription}\n\nResume: ${resumeText}\n\n 
+            Compare the resume against the job description. Return a JSON object with:
+            { "score": (0-100), "matchingSkills": [], "missingSkills": [], "summary": "" }`;
+
+            const aiAnalysis = await client.chat.completions.create({
+                model: "gemini-3-flash-preview",
+                messages: [
+                {
+                    role: 'system',
+                    content: "You are an expert HR recruiter. Respond only in valid JSON format."
+                },
+                {
+                    role: 'user',
+                    content: prompt
+                }
+            ]
+            });
+            const rawContent = aiAnalysis.choices[0].message.content;
+            const cleanJson = rawContent.replace(/```json|```/g, "").trim();
+            const parsedResult = JSON.parse(cleanJson);
+            await Application.findByIdAndUpdate(app._id, {
+                score: parsedResult.score,
+                matchingSkills: parsedResult.matchingSkills,
+                missingSkills: parsedResult.missingSkills,
+                summary: parsedResult.summary
+            });
+            return {
+                ...app.toObject(),
+                ...parsedResult 
+            };
+        }));
+        
+        const sortedRanking = rankingResults.sort((a, b) => b.score - a.score);
+        return res.status(200).json({ success: true, ranking: sortedRanking });
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(error);
+
+    }
+};
 

@@ -1,26 +1,37 @@
 import { User } from "../models/user.model.js";
 import { uploadOnCloudinary, uploadPdfToCloudinary } from "../utils/cloudinay.js";
-import cloudinary from "../utils/cloudinay.js";
 
 export const register = async (req, res) => {
     try {
         const {username, email, phoneNumber, password, role} = req.body;
-        if(!username || !email || !phoneNumber || !password || !role)
+        const profileFile = req.files?.profilePhoto?.[0];
+        // console.log("profileFile", profileFile)
+        if(!username || !email || !phoneNumber || !password || !role || !profileFile)
         {
             return res.status(400).json({
                 message:"Something is missing",
                 success:false
             })
         }
+        let profilePhoto = null;
+        const profilePhotoPath = profileFile?.path
+        console.log("profileFile path", profilePhotoPath)
 
+        if (profilePhotoPath) {
+            const cloudRes = await uploadOnCloudinary(profilePhotoPath);
+            console.log("URL ",cloudRes.secure_url)
+            if (cloudRes) profilePhoto = cloudRes.secure_url;
+        }
+        console.log("profileFile ", profilePhoto)
         const user = await User.findOne({email});
         if(user)
         {
             return res.status(400).json({
-                message: "User already exists with thie email.",
+                message: "User already exists with this email.",
                 success :false
             })
         }
+
 
 
         await User.create({
@@ -28,10 +39,10 @@ export const register = async (req, res) => {
             email, 
             phoneNumber,
             password,
-            role
-
+            role,
+            profile:{profilePhoto}
         })
-        // console.log(user);
+        console.log(user);
         
         return res.status(201).json({
             message: "User account created successully ",
@@ -177,17 +188,14 @@ export const updateProfile = async (req, res) => {
 
     const resumeFile = req.files?.resume?.[0];
     const profileFile = req.files?.profilePhoto?.[0];
-    console.log("Resume", resumeFile);
-    console.log("profile", profileFile);
     
     const resumePath = resumeFile?.path;
     const profilePhotoPath = profileFile?.path;
-    console.log(resumePath)
     let resumeUrl = null;
     if (resumePath) {
 
         const cloudRes = await uploadPdfToCloudinary(resumePath)
-        if (cloudRes) resumeUrl = cloudRes.url;
+        if (cloudRes) resumeUrl = cloudRes.secure_url;
     }
     console.log(resumeUrl)
     let profileUrl = null;

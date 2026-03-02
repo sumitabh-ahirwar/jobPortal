@@ -10,12 +10,7 @@ import Login from "./components/auth/Login.jsx";
 import Signup from "./components/auth/Signup.jsx";
 import Jobs from "./components/client/Jobs.jsx";
 import Browse from "./components/client/Browse.jsx";
-import { useDispatch } from "react-redux";
-import { setUser } from "./redux/authSlice.js";
-import { useEffect } from "react";
-import axios from "axios";
 import Profile from "./components/client/Profile.jsx";
-import { USER_API_ENDPOINT } from "./utils/constants.js";
 import JobDescription from "./components/client/JobDescription.jsx";
 import Companies from "./components/AdminSide/Companies.jsx";
 import AdminJobs from "./components/AdminSide/AdminJobs.jsx";
@@ -28,6 +23,7 @@ import UpdateJob from "./components/AdminSide/UpdateJob.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
+      <Route index element={<Home />} />
       <Route path="home" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
@@ -47,22 +43,22 @@ const router = createBrowserRouter(
   ),
 );
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get(`${USER_API_ENDPOINT}/me`, {
-          withCredentials: true,
-        });
-        // console.log(res.data.user)
-        dispatch(setUser(res.data.user));
-      } catch (err) {
-        dispatch(setUser(null));
-      }
-    };
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const res = await axios.get(`${USER_API_ENDPOINT}/me`, {
+  //         withCredentials: true,
+  //       });
+  //       // console.log(res.data.user)
+  //       dispatch(setUser(res.data.user));
+  //     } catch (err) {
+  //       dispatch(setUser(null));
+  //     }
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
   return (
     <>
       <RouterProvider router={router} />

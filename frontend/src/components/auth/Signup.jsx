@@ -7,22 +7,27 @@ import axios from 'axios'
 import { RadioGroup } from '../ui/radio-group.jsx' 
 import { USER_API_ENDPOINT } from '../../utils/constants.js'
 import { toast } from 'sonner'
+import { useDispatch } from 'react-redux'
+import { Loader2 } from 'lucide-react'
 function Signup() {
     const [input, setInput] = useState({
     username: '',
     email: '',
     phoneNumber: '',
     password: '',
-    role: ''
+    role: '',
+    profilePhoto: ""
   });
-
-  const dispatch = useDispatch();
-  const {loading} = useSelector(state => state.auth);
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const changeEventHandler = (e) => {
     setInput({...input, [e.target.name]: e.target.value});
   } 
-
+  const changeProfileImageHandler = (e) => {
+    const profilePhoto = e.target.files?.[0];
+    console.log(profilePhoto)
+    setInput({ ...input, profilePhoto: profilePhoto });
+  };
   const submitHandler = async(e) => {
     e.preventDefault();
     const data = new FormData();
@@ -31,13 +36,17 @@ function Signup() {
     data.append('phoneNumber', input.phoneNumber);
     data.append('password', input.password);
     data.append('role', input.role);
+    if(input.profilePhoto)
+    {
+        data.append('profilePhoto', input.profilePhoto)
+    }
     console.log(data);
     try {
-        dispatch(setLoading(true))
-        const res = await axios.post(`${USER_API_ENDPOINT}/register`, input,
+        setLoading(true)
+        const res = await axios.post(`${USER_API_ENDPOINT}/register`, data,
             {
                 headers:{
-                    "Content-Type" : "application/json"
+                    "Content-Type" : "multipart/form-data"
             },
             withCredentials: true
         }
@@ -52,7 +61,7 @@ function Signup() {
         toast.error(error.message || "Signup failed. Please try again.");
     }
     finally{
-        dispatch(setLoading(false))
+        setLoading(false)
     }
     console.log(input);
     setInput({
@@ -106,6 +115,15 @@ function Signup() {
                     name="password"
                     onChange={changeEventHandler}
                     placeholder="enter your password"
+                />
+            </div>
+            <div className='my-2'>
+                <Label>Profile Photo</Label>
+                <Input
+                    type = 'file'
+                    name="profilePhoto"
+                    onChange={changeProfileImageHandler}
+                    accept = 'image/*'
                 />
             </div>
             <div className='flex items-center justify-between'>

@@ -6,18 +6,19 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import useGetAllJobs from '@/hooks/useGetAllJobs'
 function Home() {
-  useGetAllJobs();
+  useGetAllJobs()
   const {user} = useSelector(state => state.auth)
   const navigate = useNavigate();
   useEffect(() => {
-  if(user && user.role === "recruiter") navigate("/admin/companies")
+  if(user && user.role === "recruiter") {
+    navigate("/admin/companies")
+  }
   })
   return (
     <div>
       <HeroSection/>
       <CategoryCarousel/>
       <LatestJobs />
-
     </div>
   )
 }

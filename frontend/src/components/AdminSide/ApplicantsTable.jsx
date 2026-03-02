@@ -9,17 +9,17 @@ import {
   TableRow,
 } from "../ui/table";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { MoreHorizontal } from "lucide-react";
+import { CheckCircle2, Info, MoreHorizontal } from "lucide-react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { APPLICATION_API_ENDPOINT } from "@/utils/constants";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
-import { useParams } from "react-router-dom";
 
-const ApplicantsTable = () => {
+const ApplicantsTable = ({jobId}) => {
   const options = ["Accept", "Reject"];
-  const { applicants } = useSelector((state) => state.application);
+  const { applicantsForJob } = useSelector((state) => state.application);
+  const applicants = applicantsForJob[jobId]
 
   const statusHandler = async (status, id) => {
     try {
@@ -42,6 +42,7 @@ const ApplicantsTable = () => {
             <TableHead>Full Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone Number</TableHead>
+            <TableHead>Match %</TableHead>
             <TableHead>Resume</TableHead>
             <TableHead>Date</TableHead>
             <TableHead className="text-right">Action</TableHead>
@@ -49,17 +50,40 @@ const ApplicantsTable = () => {
         </TableHeader>
         <TableBody>
           {applicants?.length >= 0 &&
-            applicants.map((application) => (
-              <TableRow key={application._id}>
-                <TableCell>{application?.applicant?.username}</TableCell>
+            applicants.map((application, index) => {
+            const isRanked = !!application?.score;
+            const isTopCandidate = isRanked && application?.score > 75 ;
+             return  (
+              <TableRow key={application._id}
+              className={`${isTopCandidate ? "bg-green-50 hover:bg-green-100/80 border-l-4 border-l-green-500" : ""}`}
+              >
+                <TableCell>
+                  <div className="flex flex-col">
+                    <span className="font-medium">{application?.applicant?.username || application?.applicantName}</span>
+                    {isTopCandidate && (
+                      <span className="text-[10px] text-green-600 font-bold flex items-center gap-1">
+                        <CheckCircle2 className="h-3 w-3" /> BEST MATCH
+                      </span>
+                    )}
+                  </div>
+                </TableCell>
                 <TableCell>{application?.applicant?.email}</TableCell>
                 <TableCell>{application?.applicant?.phoneNumber}</TableCell>
+                <TableCell>
+                  {isRanked ? (
+                    <span className={`font-bold ${application.score > 75 ? "text-green-600" : "text-yellow-600"}`}>
+                      {application.score}%
+                    </span>
+                  ) : (
+                    <span className="text-gray-400 text-xs">--</span>
+                  )}
+                </TableCell>
                 <TableCell
                   className={
                     "text-blue-400 hover hover:underline-offset-4 cursor-pointer"
                   }
                 >
-                  <a target="blank" href={application?.applicant?.profile?.resume}>{application?.applicant?.profile?.resumeOriginalName}</a>
+                  <a target="blank" href={application?.applicant?.profile?.resume}>view resume</a>
                 </TableCell>
                 <TableCell>{application?.applicant?.createdAt.split('T')[0]}</TableCell>
                 <TableCell className={"text-right"}>
@@ -67,21 +91,34 @@ const ApplicantsTable = () => {
                     <PopoverTrigger>
                       <MoreHorizontal className="cursor-pointer" />
                     </PopoverTrigger>
-                    <PopoverContent className={"w-32 h-32"}>
-                      {options.map((op, index) => (
-                        <Button variant="outline"
-                          key={index}
-                           onClick={() => statusHandler(op, application._id)}
-                          className="flex w-24 items-center my-2 cursor-pointer"
-                        >
-                          {op}
-                        </Button>
-                      ))}
+                    <PopoverContent className="w-64">
+                      {isRanked && (
+                        <div className="mb-3 p-2 bg-gray-50 rounded text-[11px] text-gray-600 italic border-b">
+                          <p className="font-bold text-gray-800 mb-1 flex items-center gap-1">
+                            <Info className="h-3 w-3" /> AI Summary:
+                          </p>
+                          {application.summary}
+                        </div>
+                      )}
+                      
+                      <div className="flex flex-col gap-2">
+                        {options.map((op, i) => (
+                          <Button 
+                            variant="outline" 
+                            key={i} 
+                            onClick={() => statusHandler(op, application._id || application.applicationId)}
+                            className="w-full text-xs h-8"
+                          >
+                            Mark as {op}
+                          </Button>
+                        ))}
+                      </div>
                     </PopoverContent>
                   </Popover>
                 </TableCell>
               </TableRow>
-            ))}
+            )
+            })}
         </TableBody>
       </Table>
     </div>

@@ -15,6 +15,22 @@ const applicationSchema = new Schema({
         type:String,
         enum:['pending', 'accepted', 'rejected'],
         default:'pending'
+    },
+    score: {
+        type: Number,
+        default: null
+    },
+    matchingSkills: {
+        type: [String],
+        default: []
+    },
+    missingSkills: {
+        type: [String],
+        default: []
+    },
+    summary: {
+        type: String,
+        default: ""
     }
 
 },{timestamps:true})

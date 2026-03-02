@@ -28,7 +28,9 @@ function JobCards({job}) {
       </div>
       <div>
         <h1 className='font-bold text-lg my-2'>{job?.title}</h1>
-        <p className='text-sm text-gray-600'>{job?.description}</p>
+        <p className=" text-sm text-gray-600 ">
+          {job?.description?.split('\n')[0]}
+        </p>
       </div>
       <div className='flex items-center gap-1 mt-4'>
         <Badge className={'text-blue-700 font-bold'} variant="ghost">

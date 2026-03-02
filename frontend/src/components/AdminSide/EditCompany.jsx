@@ -7,6 +7,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import axios from "axios";
+import { toast } from "sonner";
 
 const EditCompany = () => {
   const params = useParams();

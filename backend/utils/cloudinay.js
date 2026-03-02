@@ -39,8 +39,9 @@ const uploadPdfToCloudinary = async (file) => {
     
     if (!file) return null;
     const response = await cloudinary.uploader.upload(file, {
-      folder: "resumes",
-      resource_type: "raw"   
+      folder:"resumes",
+      resource_type: "image",
+      format:'pdf'
     });
     if (fs.existsSync(file.path)) {
       fs.unlinkSync(file.path);
@@ -48,6 +49,9 @@ const uploadPdfToCloudinary = async (file) => {
 
     return response; // contains secure_url
   } catch (error) {
+     if (fs.existsSync(file.path)) {
+      fs.unlinkSync(file.path);
+    }
     console.error("PDF upload failed:", error);
     return null;
   }
