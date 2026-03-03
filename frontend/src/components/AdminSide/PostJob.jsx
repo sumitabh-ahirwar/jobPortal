@@ -98,7 +98,6 @@ const PostJob = () => {
     }
   };
   const selectChangeHanlder = (id) => {
-    console.log(id);
     setInput({ ...input, company: id });
   };
   return (

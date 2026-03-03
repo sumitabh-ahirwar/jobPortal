@@ -43,22 +43,6 @@ const router = createBrowserRouter(
   ),
 );
 function App() {
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     try {
-  //       const res = await axios.get(`${USER_API_ENDPOINT}/me`, {
-  //         withCredentials: true,
-  //       });
-  //       // console.log(res.data.user)
-  //       dispatch(setUser(res.data.user));
-  //     } catch (err) {
-  //       dispatch(setUser(null));
-  //     }
-  //   };
-
-  //   fetchUser();
-  // }, []);
   return (
     <>
       <RouterProvider router={router} />

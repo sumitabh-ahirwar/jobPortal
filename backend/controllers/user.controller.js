@@ -15,14 +15,11 @@ export const register = async (req, res) => {
         }
         let profilePhoto = null;
         const profilePhotoPath = profileFile?.path
-        console.log("profileFile path", profilePhotoPath)
 
         if (profilePhotoPath) {
             const cloudRes = await uploadOnCloudinary(profilePhotoPath);
-            console.log("URL ",cloudRes.secure_url)
             if (cloudRes) profilePhoto = cloudRes.secure_url;
         }
-        console.log("profileFile ", profilePhoto)
         const user = await User.findOne({email});
         if(user)
         {
@@ -42,7 +39,6 @@ export const register = async (req, res) => {
             role,
             profile:{profilePhoto}
         })
-        console.log(user);
         
         return res.status(201).json({
             message: "User account created successully ",
@@ -159,7 +155,6 @@ export const logout = async (req, res) => {
             httpOnly: true,
             secure : true
         }
-        console.log("User logged out successfully")
         return res.status(200).
         clearCookie("accessToken", options)
         .clearCookie("refreshToken", options)
@@ -197,7 +192,6 @@ export const updateProfile = async (req, res) => {
         const cloudRes = await uploadPdfToCloudinary(resumePath)
         if (cloudRes) resumeUrl = cloudRes.secure_url;
     }
-    console.log(resumeUrl)
     let profileUrl = null;
     if (profilePhotoPath) {
     const cloudRes = await uploadOnCloudinary(profilePhotoPath);

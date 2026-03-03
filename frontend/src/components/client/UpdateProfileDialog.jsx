@@ -88,7 +88,7 @@ function UpdateProfileDialog({ open, setOpen }) {
   };
   const changeProfileImageHandler = (e) => {
     const profilePhoto = e.target.files?.[0];
-    console.log(profilePhoto)
+
     setInput({ ...input, profilePhoto: profilePhoto });
   };
   return (

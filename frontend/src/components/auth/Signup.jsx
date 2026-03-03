@@ -25,7 +25,7 @@ function Signup() {
   } 
   const changeProfileImageHandler = (e) => {
     const profilePhoto = e.target.files?.[0];
-    console.log(profilePhoto)
+   
     setInput({ ...input, profilePhoto: profilePhoto });
   };
   const submitHandler = async(e) => {
@@ -40,7 +40,6 @@ function Signup() {
     {
         data.append('profilePhoto', input.profilePhoto)
     }
-    console.log(data);
     try {
         setLoading(true)
         const res = await axios.post(`${USER_API_ENDPOINT}/register`, data,
@@ -63,7 +62,6 @@ function Signup() {
     finally{
         setLoading(false)
     }
-    console.log(input);
     setInput({
        username: '',
     email: '',

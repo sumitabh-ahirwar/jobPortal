@@ -13,15 +13,12 @@ const uploadOnCloudinary = async (localFilePath) => {
   try {
     if (!localFilePath) return null;
 
-    console.log("Uploading to Cloudinary:", localFilePath);
 
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "raw",      
     });
 
-    console.log("Uploaded successfully:", response.secure_url);
 
-    // delete temp file
     if (fs.existsSync(localFilePath)) {
       fs.unlinkSync(localFilePath);
     }
