@@ -46,8 +46,8 @@ const Applicants = () => {
     }
   }
   return (
-    <div>
-        <div className='max-w-7xl mx-auto'>
+    <div className='min-h-screen'>
+        <div className='max-w-7xl mx-auto min-h-screen'>
             <div className='flex items-center justify-between'>
               <h1 className='font-bold text-xl my-5'>Applicants ({applicants?.length})</h1>
               <Button 
