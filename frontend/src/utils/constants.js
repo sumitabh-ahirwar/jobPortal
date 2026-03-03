@@ -1,4 +1,4 @@
-export const USER_API_ENDPOINT = "http://localhost:3000/api/v1/users";
+export const USER_API_ENDPOINT = "https://jobportal-y0dn.onrender.com/api/v1/users";
 export const categories = [
     "Frontend Developer",
     "Backend Developer",
