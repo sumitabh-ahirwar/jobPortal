@@ -16,7 +16,7 @@ export const categories = [
     "Technical Support"
 ]
 
-export const JOB_API_ENDPOINT = "http://localhost:3000/api/v1/job"
-export const APPLICATION_API_ENDPOINT = "http://localhost:3000/api/v1/application"
-export const COMPANY_API_ENDPOINT = "http://localhost:3000/api/v1/company"
-export const AI_API_ENDPOINT = "http://localhost:3000/api/v1/ai"
+export const JOB_API_ENDPOINT = "https://jobportal-y0dn.onrender.com/api/v1/job"
+export const APPLICATION_API_ENDPOINT = "https://jobportal-y0dn.onrender.com/api/v1/application"
+export const COMPANY_API_ENDPOINT = "https://jobportal-y0dn.onrender.com/api/v1/company"
+export const AI_API_ENDPOINT = "https://jobportal-y0dn.onrender.com/api/v1/ai"

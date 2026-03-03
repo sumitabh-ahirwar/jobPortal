@@ -17,7 +17,7 @@ app.use(express.urlencoded({
 }))
 app.use(cookieParser())
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: 'https://jobportal-y0dn.onrender.com',
     credentials: true
 }
 app.use(cors(corsOptions))
